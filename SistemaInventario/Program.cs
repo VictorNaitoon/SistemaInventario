@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SistemaInventario.AccesoDatos.Data;
+using SistemaInventario.AccesoDatos.Repositorio;
+using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+//Aqui agregamos el servicio de unidad de trabajo, para mi que esto es el famoso "mapeo" y tambien conocido como:
+//Inyección de Dependencias
+builder.Services.AddScoped<IUnidadTrabajo, UnidadTrabajo>();     //El addScoped permite que la instancia de servicio se cree una vez y pueda seguirse usando las veces que se la requiera
+
 
 var app = builder.Build();
 
